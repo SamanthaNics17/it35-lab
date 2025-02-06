@@ -14,6 +14,7 @@ const Home: React.FC = () => {
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Blank</IonTitle>
+            hello
           </IonToolbar>
         </IonHeader>
         <ExploreContainer />
