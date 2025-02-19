@@ -26,7 +26,7 @@ import {
             justifyContent: 'center',
             height: '100%',
           }}
-        >syimpri gwapo ta sir
+        >Feed
         </div>
         </IonContent>
       </IonPage>
