@@ -26,7 +26,7 @@ import {
             justifyContent: 'center',
             height: '100%',
           }}
-        >Feed
+        >Feed 
         </div>
         </IonContent>
       </IonPage>
