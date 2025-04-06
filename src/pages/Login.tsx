@@ -6,22 +6,36 @@ import {
   IonItem,
   IonLabel,
   IonPage,
-  IonTitle,
-  IonToolbar,
   useIonRouter,
   IonIcon,
 } from "@ionic/react";
 import { eye, eyeOff } from "ionicons/icons";
 import { useState } from "react";
+import  supabase  from "../utils/supabaseClient";
 
 const Login: React.FC = () => {
   const navigation = useIonRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // New: Loading state
 
-  const doLogin = () => {
-    navigation.push("/it35-lab/app", "forward", "replace");
+  const doLogin = async () => {
+    setLoading(true); // Show loading state
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert("Login failed: " + error.message);
+    } else {
+      alert("Login successful!");
+      navigation.push("/it35-lab/app", "forward", "replace");
+    }
+
+    setLoading(false); // Reset loading state
   };
 
   return (
@@ -29,8 +43,8 @@ const Login: React.FC = () => {
       <IonHeader></IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <div className="login-container">
-          <h2>Welcome to Mobile Legends !</h2>
-          <p>Please login to continue</p>
+          <h2>Welcome to Mobile Legends Bang Bang!</h2>
+          <p>Please Sign in to continue</p>
 
           <IonItem className="input-field">
             <IonLabel position="stacked">Email</IonLabel>
@@ -60,12 +74,17 @@ const Login: React.FC = () => {
             </IonButton>
           </IonItem>
 
-          <IonButton expand="full" className="login-btn" onClick={doLogin}>
-            Login
+          <IonButton
+            expand="full"
+            className="login-btn"
+            onClick={doLogin}
+            disabled={loading} // Disable button when loading
+          >
+            {loading ? "Logging in..." : "Login"}
           </IonButton>
 
           <p className="register-link">
-            Dont have an account?{" "}
+          Does not have an account ?{" "}
             <span
               style={{ color: "blue", cursor: "pointer", fontWeight: "bold" }}
               onClick={() => navigation.push("/register", "forward")}
