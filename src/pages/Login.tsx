@@ -43,7 +43,7 @@ const Login: React.FC = () => {
       <IonHeader></IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <div className="login-container">
-          <h2>Welcome to Mobile Legends Bang Bang!</h2>
+          <h2>Welcome to Mobile Legends Beng Bang!</h2>
           <p>Please Sign in to continue</p>
 
           <IonItem className="input-field">
