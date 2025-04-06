@@ -9,34 +9,28 @@ import {
   IonTitle,
   IonToolbar,
   useIonRouter,
-  IonIcon
-} from '@ionic/react';
-import { eye, eyeOff } from 'ionicons/icons';
-import { useState } from 'react';
+  IonIcon,
+} from "@ionic/react";
+import { eye, eyeOff } from "ionicons/icons";
+import { useState } from "react";
 
 const Login: React.FC = () => {
   const navigation = useIonRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const doLogin = () => {
-    navigation.push('/it35-lab/app', 'forward', 'replace');
+    navigation.push("/it35-lab/app", "forward", "replace");
   };
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle> 
-
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <IonHeader></IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <div className="login-container">
-          <h2>Welcome to NBSC-ICS !</h2>
-          <p>Please lupad to continue</p>
+          <h2>Welcome to Mobile Legends !</h2>
+          <p>Please login to continue</p>
 
           <IonItem className="input-field">
             <IonLabel position="stacked">Email</IonLabel>
@@ -51,7 +45,7 @@ const Login: React.FC = () => {
           <IonItem className="input-field">
             <IonLabel position="stacked">Password</IonLabel>
             <IonInput
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
               value={password}
               onIonInput={(e) => setPassword(e.detail.value!)}
@@ -71,7 +65,13 @@ const Login: React.FC = () => {
           </IonButton>
 
           <p className="register-link">
-            Way account? Hala Lupad <a href="it35-lab/register">Sign up</a>
+            Dont have an account?{" "}
+            <span
+              style={{ color: "blue", cursor: "pointer", fontWeight: "bold" }}
+              onClick={() => navigation.push("/register", "forward")}
+            >
+              Sign up
+            </span>
           </p>
         </div>
       </IonContent>
@@ -119,15 +119,15 @@ const Login: React.FC = () => {
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
           }
 
+          .forgot-password {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+          }
+
           .register-link {
             margin-top: 10px;
             font-size: 14px;
-          }
-
-          .register-link a {
-            color: #3880ff;
-            text-decoration: none;
-            font-weight: bold;
           }
         `}
       </style>
