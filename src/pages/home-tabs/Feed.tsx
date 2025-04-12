@@ -1,18 +1,14 @@
-import {
+import { 
   IonButtons,
-  IonContent,
-  IonHeader,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonCardContent,
-  IonButton,
-} from "@ionic/react";
+    IonContent, 
+    IonHeader, 
+    IonMenuButton, 
+    IonPage, 
+    IonTitle, 
+    IonToolbar 
+} from '@ionic/react';
+import FeedContainer from '../../components/FeedContainer';
+
 const Feed: React.FC = () => {
   return (
     <IonPage>
@@ -24,33 +20,19 @@ const Feed: React.FC = () => {
           <IonTitle>Feed</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Samantha</IonCardTitle>
-            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-          </IonCardHeader>
-
-          <IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>
-
-          <IonButton fill="clear">Action 1</IonButton>
-          <IonButton fill="clear">Action 2</IonButton>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Nicole</IonCardTitle>
-            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-          </IonCardHeader>
-
-          <IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>
-
-          <IonButton fill="clear">Action 1</IonButton>
-          <IonButton fill="clear">Action 2</IonButton>
-        </IonCard>
-        
+      <IonContent fullscreen>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+          }}
+        >
+          Feed
+        </div>
+        <FeedContainer />
       </IonContent>
-
-
     </IonPage>
   );
 };
