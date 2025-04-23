@@ -11,17 +11,17 @@ import {
 } from "@ionic/react";
 import { eye, eyeOff } from "ionicons/icons";
 import { useState } from "react";
-import  supabase  from "../utils/supabaseClient";
+import supabase from "../utils/supabaseClient";
 
 const Login: React.FC = () => {
   const navigation = useIonRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false); // New: Loading state
+  const [loading, setLoading] = useState(false);
 
   const doLogin = async () => {
-    setLoading(true); // Show loading state
+    setLoading(true);
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
       navigation.push("/it35-lab/app", "forward", "replace");
     }
 
-    setLoading(false); // Reset loading state
+    setLoading(false);
   };
 
   return (
@@ -43,12 +43,13 @@ const Login: React.FC = () => {
       <IonHeader></IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <div className="login-container">
-          <h2>Welcome to Mobile Legends Beng Bang!</h2>
-          <p>Please Sign in to continue</p>
+          <h2 className="login-title">Welcome back Annarose!</h2>
+          <p className="subtitle">Sign in with your credentials</p>
 
           <IonItem className="input-field">
             <IonLabel position="stacked">Email</IonLabel>
             <IonInput
+              autofocus
               type="email"
               placeholder="Enter your email"
               value={email}
@@ -56,7 +57,7 @@ const Login: React.FC = () => {
             />
           </IonItem>
 
-          <IonItem className="input-field">
+          <IonItem className="input-field password-glow">
             <IonLabel position="stacked">Password</IonLabel>
             <IonInput
               type={showPassword ? "text" : "password"}
@@ -78,15 +79,15 @@ const Login: React.FC = () => {
             expand="full"
             className="login-btn"
             onClick={doLogin}
-            disabled={loading} // Disable button when loading
+            disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}
           </IonButton>
 
           <p className="register-link">
-          Does not have an account ?{" "}
+            Don’t have an account?{" "}
             <span
-              style={{ color: "blue", cursor: "pointer", fontWeight: "bold" }}
+              className="sign-up"
               onClick={() => navigation.push("/register", "forward")}
             >
               Sign up
@@ -97,58 +98,100 @@ const Login: React.FC = () => {
 
       <style>
         {`
-          .login-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 20px;
-          }
+    .login-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 20px;
+      animation: fadeSlideIn 0.6s ease-out;
+    }
 
-          .login-container h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-          }
+    .register-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+}
 
-          .login-container p {
-            color: gray;
-            margin-bottom: 20px;
-          }
+.sign-up {
+  color: #4c8fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
 
-          .input-field {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-          }
+.sign-up:hover {
+  color: #6caeff;
+  text-decoration: underline;
+}
 
-          .password-toggle {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-          }
+    .login-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
 
-          .login-btn {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-          }
+    .subtitle {
+      color: #aaa;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
 
-          .forgot-password {
-            margin-top: 10px;
-            font-size: 14px;
-            text-align: center;
-          }
+    .input-field {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      transition: box-shadow 0.3s ease;
+    }
 
-          .register-link {
-            margin-top: 10px;
-            font-size: 14px;
-          }
-        `}
+    .input-field:hover,
+    .input-field:focus-within {
+      box-shadow: 0 0 8px #4c8fff, 0 0 12px #4c8fff;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    .login-btn {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: #4c8fff;
+      color: white;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #5c9eff;
+      box-shadow: 0 0 8px #4c8fff;
+    }
+
+    .register-link {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  `}
       </style>
     </IonPage>
   );
