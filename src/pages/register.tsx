@@ -47,7 +47,7 @@ const Register: React.FC = () => {
 
   const handleOpenVerificationModal = () => {
     if (!email.endsWith("@nbsc.edu.ph")) {
-      setAlertMessage("Only @nbsc.edu.ph emails are allowed to register.");
+      setAlertMessage("Only @nbsc.edu.ph emails ang pwede.");
       setShowAlert(true);
       return;
     }
@@ -102,7 +102,7 @@ const Register: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="ion-padding">
-        <h1>Create your account</h1>
+        <h1>Sign Up to Continue</h1>
 
         <IonInput
           className={styles.inputField}
