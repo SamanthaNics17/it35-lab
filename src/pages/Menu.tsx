@@ -1,112 +1,153 @@
-import { 
-    IonAlert,
-    IonButton, 
-    IonContent, 
-    IonHeader, 
-    IonIcon, 
-    IonItem, 
-    IonMenu,  
-    IonMenuToggle, 
-    IonPage, 
-    IonRouterOutlet, 
-    IonSplitPane, 
-    IonTitle, 
-    IonToast, 
-    IonToolbar, 
-    useIonRouter
-  } from '@ionic/react';
-  
-  import {homeOutline, logOutOutline, rocketOutline, settingsOutline} from 'ionicons/icons';
-  import { Redirect, Route } from 'react-router';
-  import Home from './Home';
-  import About from './About'; 
-  import  supabase from '../utils/supabaseClient';
-  import { useState } from 'react';
-  import EditProfilePage from './EditProfilePage';
+import {
+  IonAlert,
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonMenu,
+  IonMenuToggle,
+  IonPage,
+  IonRouterOutlet,
+  IonSplitPane,
+  IonTitle,
+  IonToast,
+  IonToolbar,
+  useIonRouter,
+} from '@ionic/react';
 
-  const Menu: React.FC = () => {
-    
-      const navigation = useIonRouter();
-     const [showAlert, setShowAlert] = useState(false);
-     const [errorMessage, setErrorMessage] = useState('');
-     const [showToast, setShowToast] = useState(false);
-     
-     const path = [
-      { name: 'Home', url: '/it35-lab/app/Home', icon: homeOutline },
-      { name: 'About', url: '/it35-lab/app/About', icon: rocketOutline },
-      {name:'Profile', url: '/it35-lab/app/profile', icon: settingsOutline},
-    ]
+import {
+  homeOutline,
+  logOutOutline,
+  rocketOutline,
+  settingsOutline,
+} from 'ionicons/icons';
+import { Redirect, Route } from 'react-router';
+import Home from './Home';
+import About from './About';
+import supabase from '../utils/supabaseClient';
+import { useState } from 'react';
+import EditProfilePage from './EditProfilePage';
 
-    const handleLogout = async () => {
-      const { error } = await supabase.auth.signOut();
-      if (!error) {
-          setShowToast(true);
-          setTimeout(() => {
-              navigation.push('/it35-lab', 'back', 'replace'); 
-          }, 300); 
-      } else {
-          setErrorMessage(error.message);
-          setShowAlert(true);
-      }
+const Menu: React.FC = () => {
+  const navigation = useIonRouter();
+  const [showAlert, setShowAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
+
+  const path = [
+    { name: 'Home', url: '/it35-lab/app/Home', icon: homeOutline },
+    { name: 'About', url: '/it35-lab/app/About', icon: rocketOutline },
+    { name: 'Profile', url: '/it35-lab/app/profile', icon: settingsOutline },
+  ];
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      setShowToast(true);
+      setTimeout(() => {
+        navigation.push('/it35-lab', 'back', 'replace');
+      }, 300);
+    } else {
+      setErrorMessage(error.message);
+      setShowAlert(true);
+    }
   };
-  
-    return (
-      <IonPage>
-        <IonSplitPane contentId="main">
-          <IonMenu contentId="main">
-            <IonHeader>
-              <IonToolbar>
-                <IonTitle>Menu</IonTitle>
-              </IonToolbar>
-            </IonHeader>
-            <IonContent>
-              {path.map((item, index) => (
-                <IonMenuToggle key={index}>
-                  <IonItem routerLink={item.url} routerDirection="forward">
-                    <IonIcon icon={item.icon} slot="start"></IonIcon>
-                    {item.name}
-                  </IonItem>
-                </IonMenuToggle>
-              ))}
-  
-              <IonButton routerLink="/it35-lab" routerDirection="back" expand="full">
-                <IonIcon icon={logOutOutline} slot="start"></IonIcon>Logout
-              </IonButton>
-            </IonContent>
-          </IonMenu>
-          <IonRouterOutlet id="main">
-            <Route exact path="/it35-lab/app/Home" component={Home} />
-            <Route exact path="/it35-lab/app/About" component={About} />
-            <Route exact path="/it35-lab/app/profile" component={EditProfilePage} />
-            <Route exact path="/it35-lab/app">
-              <Redirect to="/it35-lab/app/Home" />
-            
-            </Route>
-          </IonRouterOutlet>
 
-           {/* IonAlert for displaying login errors */}
-           <IonAlert
-                     isOpen={showAlert}
-                     onDidDismiss={() => setShowAlert(false)}
-                     header="Logout Failed"
-                     message={errorMessage}
-                     buttons={['OK']}
-                 />
-                 
-                 {/* IonToast for success message */}
-                 <IonToast
-                     isOpen={showToast}
-                     onDidDismiss={() => setShowToast(false)}
-                     message="Logout Successful"
-                     duration={1500}
-                     position="top"
-                     color="primary"
-                 />
- 
-        </IonSplitPane>
-      </IonPage>
-    );
-  };
-  
-  export default Menu;
-  
+  return (
+    <IonPage>
+      <IonSplitPane contentId="main">
+        <IonMenu contentId="main">
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>Menu</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            {path.map((item, index) => (
+              <IonMenuToggle key={index}>
+                <IonItem
+                  className="menu-hover"
+                  routerLink={item.url}
+                  routerDirection="forward"
+                >
+                  <IonIcon icon={item.icon} slot="start"></IonIcon>
+                  {item.name}
+                </IonItem>
+              </IonMenuToggle>
+            ))}
+
+            <IonButton
+              className="logout-button"
+              routerLink="/it35-lab"
+              routerDirection="back"
+              expand="full"
+            >
+              <IonIcon icon={logOutOutline} slot="start"></IonIcon>Logout
+            </IonButton>
+          </IonContent>
+        </IonMenu>
+        <IonRouterOutlet id="main">
+          <Route exact path="/it35-lab/app/Home" component={Home} />
+          <Route exact path="/it35-lab/app/About" component={About} />
+          <Route exact path="/it35-lab/app/profile" component={EditProfilePage} />
+          <Route exact path="/it35-lab/app">
+            <Redirect to="/it35-lab/app/Home" />
+          </Route>
+        </IonRouterOutlet>
+
+        {/* IonAlert for displaying login errors */}
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          header="Logout Failed"
+          message={errorMessage}
+          buttons={['OK']}
+        />
+
+        {/* IonToast for success message */}
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message="Logout Successful"
+          duration={1500}
+          position="top"
+          color="primary"
+        />
+      </IonSplitPane>
+
+      {/* Inline Styles */}
+      <style>
+        {`
+          .menu-hover {
+            transition: transform 0.2s ease-in-out;
+            font-weight: bold;
+          }
+
+          .menu-hover:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+          }
+
+          .logout-button {
+            --background: #1a0000;
+            --color: #fff;
+            font-weight: bold;
+            border: 2px solid red;
+            box-shadow: none;
+            transition: all 0.3s ease-in-out;
+          }
+
+          .logout-button:hover {
+            transform: scale(1.05);
+            background: red;
+            color: white;
+            box-shadow: 0 0 10px red, 0 0 20px crimson, 0 0 30px crimson;
+          }
+        `}
+      </style>
+    </IonPage>
+  );
+};
+
+export default Menu;
