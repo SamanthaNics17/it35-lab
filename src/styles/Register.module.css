@@ -1,0 +1,82 @@
+/* General input field styling */
+.inputField {
+    margin-bottom: 16px;
+    --border-color: transparent;
+    --background: #1a1a1a; /* Optional: matches your dark theme */
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --highlight-color-focused: #00f0ff; /* Customize this glow color */
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .inputField:hover {
+    --border-color: #00f0ff;
+    animation: neonPulse 1.5s infinite alternate;
+    border-radius: 8px;
+  }
+  
+  @keyframes neonPulse {
+    from {
+      box-shadow: 0 0 6px #00f0ff;
+    }
+    to {
+      box-shadow: 0 0 14px #00f0ff, 0 0 22px #00f0ff;
+    }
+  }
+  
+  
+  /* Register button: smooth primary feel */
+  .registerButton {
+    margin-top: 24px;
+    --background: #4e8cff;
+    color: white;
+    font-weight: 500;
+    --border-radius: 20px;
+    --box-shadow: 0 4px 12px rgba(78, 140, 255, 0.3);
+    transition: background 0.2s ease;
+  }
+  
+  .registerButton:hover {
+    --background: #3a74e0;
+  }
+  
+  /* Sign in link: clear and light */
+  .signInLink {
+    margin-top: 8px;
+    color: #90aaff;
+    font-size: 15px;
+    text-transform: none;
+  }
+  
+  /* Modal card for verification */
+  .verificationCard {
+    margin-top: 20%;
+    background: #2c2c2c;
+    --border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Success modal content */
+  .successContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .successContent h1 {
+    color: #4e8cff;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  
+  .successContent p {
+    color: #b5b5b5;
+    font-size: 15px;
+    margin: 0;
+  }
+  
