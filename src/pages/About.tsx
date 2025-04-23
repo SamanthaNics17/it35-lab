@@ -39,9 +39,9 @@ const About: React.FC = () => {
           <h2>Hi 👋, I'm Samantha Nics</h2>
           <p>A student specializing in Cyber and Network Security and Software Development</p>
           <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-            <li>🔭 I’m currently working on saving the earth <strong>Space X</strong></li>
-            <li>🌱 I’m currently learning <strong>Ionic + React + js.node/next.js, supabase/firebase</strong></li>
-            <li>💬 Ask me about <strong>astronomy, astrology and cosmology</strong></li>
+            <li>🔭 I’m currently working on Avengers <strong>Senior Sales Associate</strong></li>
+            <li>🌱 I’m currently learning <strong>to fly high</strong></li>
+            <li>💬 Ask me about the <strong>Avengers</strong></li>
             <li>📫 How to reach me: <strong>20211740@nbsc.edu.ph</strong></li>
           </ul>
           <h3>Languages and Tools:</h3>
