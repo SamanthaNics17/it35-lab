@@ -386,7 +386,7 @@ const Register: React.FC = () => {
                     
                     .form-grid {
                         display: grid;
-                        
+                        grid-template-columns: 1fr 1fr; /* Two columns */
                         gap: 20px;
                         margin-bottom: 20px;
                     }
