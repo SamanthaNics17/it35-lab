@@ -4,6 +4,7 @@ import { User } from '@supabase/supabase-js';
 import  supabase  from '../utils/supabaseClient';
 import { colorFill, pencil, trash } from 'ionicons/icons';
 import { heartOutline, chatbubbleOutline, shareSocialOutline, images, playCircle } from 'ionicons/icons';
+import { personAddOutline, happyOutline } from 'ionicons/icons';
 
 
 interface Post {
@@ -122,60 +123,106 @@ const FeedContainer = () => {
         {user ? (
           <>
             <IonCard style={{
-              margin: '16px',
-              borderRadius: '16px',
-              background: 'rgba(255, 240, 240, 0.8)',
-              backdropFilter: 'blur(10px)',
-              boxShadow: '0 4px 20px rgba(100, 100, 100, 0.15)', // Changed to gray shadow
-              border: '1px solid rgba(200, 200, 200, 0.2)' // Lighter border
-            }}>
-              <IonCardHeader style={{
-                borderBottom: '1px solid rgba(200, 200, 200, 0.2)', // Lighter border
-                paddingBottom: '12px'
-              }}>
-                <IonCardTitle style={{
-                  color: 'black', // Changed to black
-                  fontWeight: '600',
-                  fontSize: '1.4rem'
-                }}>Create Post</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent style={{ paddingTop: '16px' }}>
-                <IonInput
-                  style={{
-                    '--background': 'rgba(255, 255, 255, 0.7)',
-                    '--border-radius': '12px',
-                    '--padding-start': '12px',
-                    '--placeholder-color': '#aaa',
-                    '--color': 'black' // Changed to black
-                  }}
-                  value={postContent}
-                  onIonChange={e => setPostContent(e.detail.value!)}
-                  placeholder="Write a post..."
-                />
-              </IonCardContent>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'flex-end', 
-                padding: '0.5rem',
-                borderTop: '1px solid rgba(200, 200, 200, 0.2)' // Lighter border
-              }}>
-                <IonButton 
-                  onClick={createPost}
-                  style={{
-                    '--background': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
-                    '--background-hover': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
-                    '--background-activated': 'linear-gradient(135deg, #fad0c4 0%, #ff9a9e 100%)',
-                    '--border-radius': '12px',
-                    '--box-shadow': '0 2px 10px rgba(100, 100, 100, 0.1)', // Gray shadow
-                    '--color': 'white',
-                    margin: '8px',
-                    fontWeight: '600'
-                  }}
-                >
-                  Post
-                </IonButton>
-              </div>
-            </IonCard>
+  margin: '16px',
+  borderRadius: '16px',
+  background: 'rgba(255, 240, 240, 0.8)',
+  backdropFilter: 'blur(10px)',
+  boxShadow: '0 4px 20px rgba(100, 100, 100, 0.15)',
+  border: '1px solid rgba(200, 200, 200, 0.2)'
+}}>
+  <IonCardHeader style={{
+    borderBottom: '1px solid rgba(200, 200, 200, 0.2)',
+    paddingBottom: '12px'
+  }}>
+    <IonCardTitle style={{
+      color: 'black',
+      fontWeight: '600',
+      fontSize: '1.4rem'
+    }}>Create Post</IonCardTitle>
+  </IonCardHeader>
+  
+  <IonCardContent style={{ paddingTop: '16px' }}>
+    <IonInput
+      style={{
+        '--background': 'rgba(255, 255, 255, 0.7)',
+        '--border-radius': '12px',
+        '--padding-start': '12px',
+        '--placeholder-color': '#aaa',
+        '--color': 'black'
+      }}
+      value={postContent}
+      onIonChange={e => setPostContent(e.detail.value!)}
+      placeholder="What's on your mind?"
+    />
+  </IonCardContent>
+  
+  {/* Icon options row */}
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-around',
+    padding: '8px 16px',
+    borderTop: '1px solid rgba(200, 200, 200, 0.2)'
+  }}>
+    <IonButton 
+      fill="clear"
+      style={{
+        '--padding-start': '4px',
+        '--padding-end': '4px',
+        '--color': '#666'
+      }}
+    >
+      <IonIcon icon={images} style={{ fontSize: '1.4rem', marginRight: '4px', color: '#45BD62' }} />
+      <span style={{ fontSize: '0.9rem' }}>Photo</span>
+    </IonButton>
+    
+    <IonButton 
+      fill="clear"
+      style={{
+        '--padding-start': '4px',
+        '--padding-end': '4px',
+        '--color': '#666'
+      }}
+    >
+      <IonIcon icon={personAddOutline} style={{ fontSize: '1.4rem', marginRight: '4px', color: '#1877F2' }} />
+      <span style={{ fontSize: '0.9rem' }}>Tag People</span>
+    </IonButton>
+    
+    <IonButton 
+      fill="clear"
+      style={{
+        '--padding-start': '4px',
+        '--padding-end': '4px',
+        '--color': '#666'
+      }}
+    >
+      <IonIcon icon={happyOutline} style={{ fontSize: '1.4rem', marginRight: '4px', color: '#F7B928' }} />
+      <span style={{ fontSize: '0.9rem' }}>Feeling/Activity</span>
+    </IonButton>
+  </div>
+  
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'flex-end', 
+    padding: '0.5rem',
+    borderTop: '1px solid rgba(200, 200, 200, 0.2)'
+  }}>
+    <IonButton 
+      onClick={createPost}
+      style={{
+        '--background': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+        '--background-hover': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+        '--background-activated': 'linear-gradient(135deg, #fad0c4 0%, #ff9a9e 100%)',
+        '--border-radius': '12px',
+        '--box-shadow': '0 2px 10px rgba(100, 100, 100, 0.1)',
+        '--color': 'white',
+        margin: '8px',
+        fontWeight: '600'
+      }}
+    >
+      Post
+    </IonButton>
+  </div>
+</IonCard>
   
             {posts.map(post => (
               <IonCard key={post.post_id} style={{ 

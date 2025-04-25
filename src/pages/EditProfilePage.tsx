@@ -8,7 +8,6 @@ import {
   IonHeader,
   IonBackButton,
   IonButtons,
-  IonItem,
   IonText,
   IonCol,
   IonGrid,
@@ -16,6 +15,10 @@ import {
   IonInputPasswordToggle,
   IonImg,
   IonAvatar,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent
 } from "@ionic/react";
 import supabase from "../utils/supabaseClient";
 import { useHistory } from "react-router-dom";
@@ -37,24 +40,19 @@ const EditAccount: React.FC = () => {
 
   useEffect(() => {
     const fetchSessionAndData = async () => {
-      // Fetch the current session
-      const { data: session, error: sessionError } =
-        await supabase.auth.getSession();
+      const { data: session, error: sessionError } = await supabase.auth.getSession();
 
       if (sessionError || !session || !session.session) {
         setAlertMessage("You must be logged in to access this page.");
         setShowAlert(true);
-        history.push("/it35-lab/login"); // Redirect to login if no session is found
+        history.push("/it35-lab/login");
         return;
       }
 
-      // Fetch user details from Supabase using the session's email
       const { data: user, error: userError } = await supabase
         .from("users")
-        .select(
-          "user_firstname, user_lastname, user_avatar_url, user_email, username"
-        )
-        .eq("user_email", session.session.user.email) // Use email from the session
+        .select("user_firstname, user_lastname, user_avatar_url, user_email, username")
+        .eq("user_email", session.session.user.email)
         .single();
 
       if (userError || !user) {
@@ -63,7 +61,6 @@ const EditAccount: React.FC = () => {
         return;
       }
 
-      // Populate form fields with the retrieved data
       setFirstName(user.user_firstname || "");
       setLastName(user.user_lastname || "");
       setAvatarPreview(user.user_avatar_url);
@@ -89,9 +86,7 @@ const EditAccount: React.FC = () => {
       return;
     }
 
-    // Fetch the current session
-    const { data: session, error: sessionError } =
-      await supabase.auth.getSession();
+    const { data: session, error: sessionError } = await supabase.auth.getSession();
 
     if (sessionError || !session || !session.session) {
       setAlertMessage("Error fetching session or no session available.");
@@ -118,7 +113,6 @@ const EditAccount: React.FC = () => {
       return;
     }
 
-    // Handle avatar upload if the avatar file is changed
     let avatarUrl = avatarPreview;
 
     if (avatarFile) {
@@ -130,7 +124,7 @@ const EditAccount: React.FC = () => {
         .from("user-avatars")
         .upload(filePath, avatarFile, {
           cacheControl: "3600",
-          upsert: true, // Allows overwriting existing files
+          upsert: true,
         });
 
       if (uploadError) {
@@ -139,14 +133,12 @@ const EditAccount: React.FC = () => {
         return;
       }
 
-      // Retrieve the public URL
       const { data } = supabase.storage
         .from("user-avatars")
         .getPublicUrl(filePath);
       avatarUrl = data.publicUrl;
     }
 
-    // Update user data in the users table
     const { error: updateError } = await supabase
       .from("users")
       .update({
@@ -163,7 +155,6 @@ const EditAccount: React.FC = () => {
       return;
     }
 
-    // Update the password if a new password is provided
     if (password) {
       const { error: passwordUpdateError } = await supabase.auth.updateUser({
         password: password,
@@ -189,31 +180,38 @@ const EditAccount: React.FC = () => {
         </IonButtons>
       </IonHeader>
       <IonContent
-        className="ion-padding"
         style={{
-          "--background":
-            "linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
+          "--background": "linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
           "--ion-item-background": "rgba(204, 35, 102, 0.7)",
           "--ion-toolbar-background": "rgba(220, 39, 67, 0.8)",
         }}
       >
-        <IonItem>
-          <IonText color="secondary">
-            <h1>Edit Account</h1>
-          </IonText>
-        </IonItem>
-        <br />
+        <IonCard style={{
+          margin: '16px',
+          borderRadius: '16px',
+          background: 'rgba(255, 240, 240, 0.8)',
+          backdropFilter: 'blur(10px)',
+          boxShadow: '0 4px 20px rgba(100, 100, 100, 0.15)',
+          border: '1px solid rgba(200, 200, 200, 0.2)'
+        }}>
+          <IonCardHeader>
+            <IonCardTitle style={{
+              color: 'black',
+              fontWeight: '600',
+              fontSize: '1.4rem'
+            }}>Modify your Account</IonCardTitle>
+          </IonCardHeader>
 
-        {/* Avatar Upload Section */}
-        <IonGrid>
-          <IonRow className="ion-justify-content-center ion-align-items-center">
-            <IonCol className="ion-text-center">
+          <IonCardContent>
+            {/* Avatar Upload Section */}
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               {avatarPreview && (
                 <IonAvatar
                   style={{
-                    width: "200px",
-                    height: "200px",
-                    margin: "10px auto",
+                    width: "120px",
+                    height: "120px",
+                    margin: "0 auto 10px",
+                    border: '2px solid rgba(200, 200, 200, 0.5)'
                   }}
                 >
                   <IonImg src={avatarPreview} style={{ objectFit: "cover" }} />
@@ -229,126 +227,182 @@ const EditAccount: React.FC = () => {
               />
 
               <IonButton
-                expand="block"
                 onClick={() => fileInputRef.current?.click()}
+                style={{
+                  '--background': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+                  '--background-hover': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+                  '--background-activated': 'linear-gradient(135deg, #fad0c4 0%, #ff9a9e 100%)',
+                  '--border-radius': '12px',
+                  '--box-shadow': '0 2px 10px rgba(100, 100, 100, 0.1)',
+                  '--color': 'white',
+                  fontWeight: '600'
+                }}
               >
                 Upload Avatar
               </IonButton>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+            </div>
 
-        {/* Rest of the Form */}
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonInput
-                label="Username"
-                type="text"
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Enter username"
-                value={username}
-                onIonChange={(e) => setUsername(e.detail.value!)}
-              />
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol size="6">
-              <IonInput
-                label="First Name"
-                type="text"
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Enter First Name"
-                value={firstName}
-                onIonChange={(e) => setFirstName(e.detail.value!)}
-              />
-            </IonCol>
-            <IonCol size="6">
-              <IonInput
-                label="Last Name"
-                type="text"
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Enter Last Name"
-                value={lastName}
-                onIonChange={(e) => setLastName(e.detail.value!)}
-              />
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-        <IonGrid>
-          <IonRow>
-            <IonText color="secondary">
-              <h3>Change Password</h3>
+            {/* User Information Section */}
+            <IonInput
+              label="Username"
+              labelPlacement="floating"
+              fill="outline"
+              style={{
+                '--background': 'rgba(255, 255, 255, 0.7)',
+                '--border-radius': '12px',
+                '--padding-start': '12px',
+                '--color': 'black',
+                marginBottom: '16px'
+              }}
+              value={username}
+              onIonChange={(e) => setUsername(e.detail.value!)}
+            />
+
+            <IonGrid>
+              <IonRow>
+                <IonCol>
+                  <IonInput
+                    label="First Name"
+                    labelPlacement="floating"
+                    fill="outline"
+                    style={{
+                      '--background': 'rgba(255, 255, 255, 0.7)',
+                      '--border-radius': '12px',
+                      '--padding-start': '12px',
+                      '--color': 'black',
+                      marginBottom: '16px'
+                    }}
+                    value={firstName}
+                    onIonChange={(e) => setFirstName(e.detail.value!)}
+                  />
+                </IonCol>
+                <IonCol>
+                  <IonInput
+                    label="Last Name"
+                    labelPlacement="floating"
+                    fill="outline"
+                    style={{
+                      '--background': 'rgba(255, 255, 255, 0.7)',
+                      '--border-radius': '12px',
+                      '--padding-start': '12px',
+                      '--color': 'black',
+                      marginBottom: '16px'
+                    }}
+                    value={lastName}
+                    onIonChange={(e) => setLastName(e.detail.value!)}
+                  />
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+
+            {/* Password Change Section */}
+            <IonText style={{ display: 'block', margin: '16px 0 8px', fontWeight: '600', color: 'black' }}>
+              Change Password
             </IonText>
-            <IonCol size="12">
-              <IonInput
-                label="New Password"
-                type="password"
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Enter New Password"
-                value={password}
-                onIonChange={(e) => setPassword(e.detail.value!)}
-              >
-                <IonInputPasswordToggle slot="end" />
-              </IonInput>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
 
-        <IonGrid>
-          <IonRow>
-            <IonCol size="12">
-              <IonInput
-                label="Confirm Password"
-                type="password"
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Confirm New Password"
-                value={confirmPassword}
-                onIonChange={(e) => setConfirmPassword(e.detail.value!)}
-              >
-                <IonInputPasswordToggle slot="end" />
-              </IonInput>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+            <IonInput
+              label="New Password"
+              type="password"
+              labelPlacement="floating"
+              fill="outline"
+              counter={true}
+              maxlength={30}
+              style={{
+                '--background': 'rgba(255, 255, 255, 0.7)',
+                '--border-radius': '12px',
+                '--padding-start': '12px',
+                '--color': 'black',
+                marginBottom: '16px'
+              }}
+              value={password}
+              onIonChange={(e) => setPassword(e.detail.value!)}
+            >
+              <IonInputPasswordToggle slot="end" />
+              <div slot="helper" style={{ color: password.length < 8 ? 'red' : 'green', fontSize: '12px' }}>
+                {password.length < 8 ? 'Password should be at least 8 characters' : 'Good password'}
+              </div>
+            </IonInput>
 
-        {/* Current Password Field */}
-        <IonGrid>
-          <IonRow>
-            <IonText color="secondary">
-              <h3>Confirm Changes</h3>
+            <IonInput
+              label="Confirm Password"
+              type="password"
+              labelPlacement="floating"
+              fill="outline"
+              counter={true}
+              maxlength={30}
+              style={{
+                '--background': 'rgba(255, 255, 255, 0.7)',
+                '--border-radius': '12px',
+                '--padding-start': '12px',
+                '--color': 'black',
+                marginBottom: '16px'
+              }}
+              value={confirmPassword}
+              onIonChange={(e) => setConfirmPassword(e.detail.value!)}
+            >
+              <IonInputPasswordToggle slot="end" />
+              <div slot="helper" style={{ color: confirmPassword !== password ? 'red' : 'green', fontSize: '12px' }}>
+                {confirmPassword !== password ? 'Passwords do not match' : 'Passwords match'}
+              </div>
+            </IonInput>
+
+            {/* Current Password Section */}
+            <IonText style={{ display: 'block', margin: '16px 0 8px', fontWeight: '600', color: 'black' }}>
+              Confirm Changes
             </IonText>
-            <IonCol size="12">
-              <IonInput
-                label="Current Password"
-                type="password"
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Enter Current Password to Save Changess"
-                value={currentPassword}
-                onIonChange={(e) => setCurrentPassword(e.detail.value!)}
-              >
-                <IonInputPasswordToggle slot="end" />
-              </IonInput>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
 
-        <IonButton expand="full" onClick={handleUpdate} shape="round">
-          Update Account
-        </IonButton>
+            <IonInput
+              label="Current Password"
+              type="password"
+              labelPlacement="floating"
+              fill="outline"
+              counter={true}
+              maxlength={30}
+              style={{
+                '--background': 'rgba(255, 255, 255, 0.7)',
+                '--border-radius': '12px',
+                '--padding-start': '12px',
+                '--color': 'black',
+                marginBottom: '24px'
+              }}
+              value={currentPassword}
+              onIonChange={(e) => setCurrentPassword(e.detail.value!)}
+            >
+              <IonInputPasswordToggle slot="end" />
+            </IonInput>
 
-        {/* Alert for success or errors */}
+            <IonButton
+              expand="block"
+              onClick={handleUpdate}
+              style={{
+                '--background': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+                '--background-hover': 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+                '--background-activated': 'linear-gradient(135deg, #fad0c4 0%, #ff9a9e 100%)',
+                '--border-radius': '12px',
+                '--box-shadow': '0 2px 10px rgba(100, 100, 100, 0.1)',
+                '--color': 'white',
+                fontWeight: '600',
+                height: '48px'
+              }}
+            >
+              Update Account
+            </IonButton>
+          </IonCardContent>
+        </IonCard>
+
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
           message={alertMessage}
           buttons={["OK"]}
+          style={{
+            '--background': 'rgba(255, 240, 240, 0.95)',
+            '--backdrop-filter': 'blur(10px)',
+            '--box-shadow': '0 4px 20px rgba(100, 100, 100, 0.15)',
+            '--border-radius': '16px',
+            '--header-color': 'black',
+            '--message-color': '#333'
+          }}
         />
       </IonContent>
     </IonPage>
