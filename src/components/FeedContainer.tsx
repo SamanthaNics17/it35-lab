@@ -113,9 +113,11 @@ const FeedContainer = () => {
   return (
     <>
       <IonContent style={{
-        '--background': 'linear-gradient(135deg, #fff5f5 0%, #ffecec 100%)',
-        '--ion-item-background': 'rgba(255, 255, 255, 0.7)',
-        '--ion-toolbar-background': 'rgba(255, 240, 240, 0.8)'
+       '--background': 'linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
+'--ion-item-background': 'rgba(204, 35, 102, 0.7)', /* #cc2366 with opacity */
+'--ion-toolbar-background': 'rgba(220, 39, 67, 0.8)'  /* #dc2743 with opacity */
+
+
       }}>
         {user ? (
           <>
